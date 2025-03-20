@@ -1,14 +1,7 @@
 --[[
- .____                  ________ ___.    _____                           __                
- |    |    __ _______   \_____  \\_ |___/ ____\_ __  ______ ____ _____ _/  |_  ___________ 
- |    |   |  |  \__  \   /   |   \| __ \   __\  |  \/  ___// ___\\__  \\   __\/  _ \_  __ \
- |    |___|  |  // __ \_/    |    \ \_\ \  | |  |  /\___ \\  \___ / __ \|  | (  <_> )  | \/
- |_______ \____/(____  /\_______  /___  /__| |____//____  >\___  >____  /__|  \____/|__|   
-         \/          \/         \/    \/                \/     \/     \/                   
-          \_Welcome to LuaObfuscator.com   (Alpha 0.10.8) ~  Much Love, Ferib 
+Make by fxcatkkj, dc: vortex.cat ⭐️
 ]]--
 
--- Mensagem alterada conforme solicitado
 print("by dc: vortex.cat")
 
 local v0 = game:GetService("Players")
@@ -27,7 +20,6 @@ local v11 = v8:LoadAnimation(v9)
 local v12 = Instance.new("ScreenGui")
 v12.Parent = v3:WaitForChild("PlayerGui")
 
--- Botão ASCEND mais bonito
 local v14 = Instance.new("TextButton")
 v14.Size = UDim2.new(0.15, 0, 0.08, 0)
 v14.Position = UDim2.new(0.1, 0, 0.1, 0)
@@ -38,7 +30,6 @@ v14.TextColor3 = Color3.fromRGB(255, 255, 255)
 v14.TextSize = 24
 v14.Parent = v12
 
--- Botão CONTROL modificado para tecla C
 local v20 = Instance.new("TextButton")
 v20.Size = UDim2.new(0.15, 0, 0.08, 0)
 v20.Position = UDim2.new(0.1, 0, 0.8, 0)
@@ -59,7 +50,7 @@ v22.TextColor3 = Color3.fromRGB(255, 0, 0)
 v22.TextSize = 18
 v22.Parent = v12
 
--- Barra de velocidade mais bonita
+-- Barra de velocidade
 local v26 = Instance.new("Frame")
 v26.Size = UDim2.new(0.3, 0, 0.05, 0)
 v26.Position = UDim2.new(0.35, 0, 0.6, 0)
@@ -123,7 +114,7 @@ end)
 -- Função para atualizar a barra de velocidade
 v1.RenderStepped:Connect(function()
     if v59 then
-        -- Atualizando a velocidade (simplesmente um exemplo de como fazer isso)
+        -- velocidade (simplesmente um exemplo de como fazer isso)
         local mousePos = v2:GetMouseLocation().X
         local speedRatio = math.clamp((mousePos - v39.AbsolutePosition.X) / v39.AbsoluteSize.X, 0, 1)
         v65 = math.floor(100 * speedRatio)
