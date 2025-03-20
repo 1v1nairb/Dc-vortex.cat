@@ -11,7 +11,7 @@ local v5 = v4:WaitForChild("Humanoid")
 local v6 = v4:WaitForChild("HumanoidRootPart")
 local v7 = workspace.CurrentCamera
 
--- CONTROL BUTTON
+-- Botão CONTROL
 local v20 = Instance.new("TextButton")
 v20.Size = UDim2.new(0.15, 0, 0.08, 0)
 v20.Position = UDim2.new(0.1, 0, 0.8, 0)
@@ -19,8 +19,13 @@ v20.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 v20.Text = "CONTROL"
 v20.Parent = v3:WaitForChild("PlayerGui"):FindFirstChild("ScreenGui") or Instance.new("ScreenGui", v3:WaitForChild("PlayerGui"))
 
--- ACTIVE FUNCTION
+-- Função ativada pelo botão e pela tecla C
 local function toggleControl()
+    v20.MouseButton1Click:Fire()
+end
+
+-- Evento de clique do botão
+v20.MouseButton1Click:Connect(function()
     if not v61 then
         v61 = v66()
         if not v61 then
@@ -36,15 +41,11 @@ local function toggleControl()
     elseif v58 then
         v67()
     end
-end
+end)
 
--- Evento de clique do botão
-v20.MouseButton1Click:Connect(toggleControl)
-
--- Evento de pressionar a tecla C
+-- Evento de pressionar a tecla P
 v2.InputBegan:Connect(function(input, gameProcessed)
     if not gameProcessed and input.KeyCode == Enum.KeyCode.P then
         toggleControl()
     end
 end)
-
