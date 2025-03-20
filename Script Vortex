@@ -1,0 +1,132 @@
+--[[
+ .____                  ________ ___.    _____                           __                
+ |    |    __ _______   \_____  \\_ |___/ ____\_ __  ______ ____ _____ _/  |_  ___________ 
+ |    |   |  |  \__  \   /   |   \| __ \   __\  |  \/  ___// ___\\__  \\   __\/  _ \_  __ \
+ |    |___|  |  // __ \_/    |    \ \_\ \  | |  |  /\___ \\  \___ / __ \|  | (  <_> )  | \/
+ |_______ \____/(____  /\_______  /___  /__| |____//____  >\___  >____  /__|  \____/|__|   
+         \/          \/         \/    \/                \/     \/     \/                   
+          \_Welcome to LuaObfuscator.com   (Alpha 0.10.8) ~  Much Love, Ferib 
+]]--
+
+-- Mensagem alterada conforme solicitado
+print("by dc: vortex.cat")
+
+local v0 = game:GetService("Players")
+local v1 = game:GetService("RunService")
+local v2 = game:GetService("UserInputService")
+local v3 = v0.LocalPlayer
+local v4 = v3.Character or v3.CharacterAdded:Wait()
+local v5 = v4:WaitForChild("Humanoid")
+local v6 = v4:WaitForChild("HumanoidRootPart")
+local v7 = workspace.CurrentCamera
+local v8 = v5:WaitForChild("Animator")
+local v9 = Instance.new("Animation")
+v9.AnimationId = "rbxassetid://125865269944406"
+local v11 = v8:LoadAnimation(v9)
+
+local v12 = Instance.new("ScreenGui")
+v12.Parent = v3:WaitForChild("PlayerGui")
+
+-- Botão ASCEND mais bonito
+local v14 = Instance.new("TextButton")
+v14.Size = UDim2.new(0.15, 0, 0.08, 0)
+v14.Position = UDim2.new(0.1, 0, 0.1, 0)
+v14.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Verde mais bonito
+v14.Text = "ASCEND"
+v14.Font = Enum.Font.SourceSansBold
+v14.TextColor3 = Color3.fromRGB(255, 255, 255)
+v14.TextSize = 24
+v14.Parent = v12
+
+-- Botão CONTROL modificado para tecla C
+local v20 = Instance.new("TextButton")
+v20.Size = UDim2.new(0.15, 0, 0.08, 0)
+v20.Position = UDim2.new(0.1, 0, 0.8, 0)
+v20.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+v20.Text = "CONTROL"
+v20.Font = Enum.Font.SourceSansBold
+v20.TextColor3 = Color3.fromRGB(255, 255, 255)
+v20.TextSize = 24
+v20.Parent = v12
+
+-- Indicador de status de ativação do controle
+local v22 = Instance.new("TextLabel")
+v22.Size = UDim2.new(0.3, 0, 0.05, 0)
+v22.Position = UDim2.new(0.7, 0, 0.9, 0)
+v22.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+v22.Text = "CONTROL: INACTIVE"
+v22.TextColor3 = Color3.fromRGB(255, 0, 0)
+v22.TextSize = 18
+v22.Parent = v12
+
+-- Barra de velocidade mais bonita
+local v26 = Instance.new("Frame")
+v26.Size = UDim2.new(0.3, 0, 0.05, 0)
+v26.Position = UDim2.new(0.35, 0, 0.6, 0)
+v26.BackgroundColor3 = Color3.fromRGB(44, 25, 25)
+v26.Visible = false
+v26.Parent = v12
+
+local v32 = Instance.new("TextLabel")
+v32.Size = UDim2.new(1, 0, 0.3, 0)
+v32.BackgroundTransparency = 1
+v32.Text = "Speed: 70"
+v32.TextColor3 = Color3.fromRGB(255, 255, 255)
+v32.TextScaled = true
+v32.Parent = v26
+
+local v39 = Instance.new("Frame")
+v39.Size = UDim2.new(0.9, 0, 0.4, 0)
+v39.Position = UDim2.new(0.05, 0, 0.5, 0)
+v39.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+v39.Parent = v26
+
+local v44 = Instance.new("Frame")
+v44.Size = UDim2.new(0.8, 0, 0.1, 0)
+v44.Position = UDim2.new(0.1, 0, 0.5, 0)
+v44.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+v44.Parent = v39
+
+-- Funções de controle
+local v58 = false
+local v59 = false
+local v60 = 35
+local v65 = 70
+
+local function toggleControl()
+    v59 = not v59
+    v22.Text = v59 and "CONTROL: ACTIVE" or "CONTROL: INACTIVE"
+    v22.TextColor3 = v59 and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+    v26.Visible = v59
+end
+
+-- Script para a tecla "C" ativar/desativar a função
+v2.InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.C then
+        toggleControl()
+    end
+end)
+
+-- Função do botão ASCEND
+v14.MouseButton1Click:Connect(function()
+    if v58 then
+        v58 = false
+        v14.Text = "ASCEND"
+        v11:Stop()
+    else
+        v58 = true
+        v14.Text = "STOP"
+        v11:Play()
+    end
+end)
+
+-- Função para atualizar a barra de velocidade
+v1.RenderStepped:Connect(function()
+    if v59 then
+        -- Atualizando a velocidade (simplesmente um exemplo de como fazer isso)
+        local mousePos = v2:GetMouseLocation().X
+        local speedRatio = math.clamp((mousePos - v39.AbsolutePosition.X) / v39.AbsoluteSize.X, 0, 1)
+        v65 = math.floor(100 * speedRatio)
+        v32.Text = "Speed: " .. tostring(v65)
+    end
+end)
