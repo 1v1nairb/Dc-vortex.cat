@@ -2,8 +2,6 @@
 Make by fxcatkkj, dc: vortex.cat ⭐️
 ]]--
 
-print("by dc: vortex.cat")
-
 local v0 = game:GetService("Players")
 local v1 = game:GetService("RunService")
 local v2 = game:GetService("UserInputService")
@@ -12,112 +10,41 @@ local v4 = v3.Character or v3.CharacterAdded:Wait()
 local v5 = v4:WaitForChild("Humanoid")
 local v6 = v4:WaitForChild("HumanoidRootPart")
 local v7 = workspace.CurrentCamera
-local v8 = v5:WaitForChild("Animator")
-local v9 = Instance.new("Animation")
-v9.AnimationId = "rbxassetid://125865269944406"
-local v11 = v8:LoadAnimation(v9)
 
-local v12 = Instance.new("ScreenGui")
-v12.Parent = v3:WaitForChild("PlayerGui")
-
-local v14 = Instance.new("TextButton")
-v14.Size = UDim2.new(0.15, 0, 0.08, 0)
-v14.Position = UDim2.new(0.1, 0, 0.1, 0)
-v14.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Verde mais bonito
-v14.Text = "ASCEND"
-v14.Font = Enum.Font.SourceSansBold
-v14.TextColor3 = Color3.fromRGB(255, 255, 255)
-v14.TextSize = 24
-v14.Parent = v12
-
+-- Botão CONTROL
 local v20 = Instance.new("TextButton")
 v20.Size = UDim2.new(0.15, 0, 0.08, 0)
 v20.Position = UDim2.new(0.1, 0, 0.8, 0)
 v20.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 v20.Text = "CONTROL"
-v20.Font = Enum.Font.SourceSansBold
-v20.TextColor3 = Color3.fromRGB(255, 255, 255)
-v20.TextSize = 24
-v20.Parent = v12
+v20.Parent = v3:WaitForChild("PlayerGui"):FindFirstChild("ScreenGui") or Instance.new("ScreenGui", v3:WaitForChild("PlayerGui"))
 
--- Indicador de status de ativação do controle
-local v22 = Instance.new("TextLabel")
-v22.Size = UDim2.new(0.3, 0, 0.05, 0)
-v22.Position = UDim2.new(0.7, 0, 0.9, 0)
-v22.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-v22.Text = "CONTROL: INACTIVE"
-v22.TextColor3 = Color3.fromRGB(255, 0, 0)
-v22.TextSize = 18
-v22.Parent = v12
-
--- Barra de velocidade
-local v26 = Instance.new("Frame")
-v26.Size = UDim2.new(0.3, 0, 0.05, 0)
-v26.Position = UDim2.new(0.35, 0, 0.6, 0)
-v26.BackgroundColor3 = Color3.fromRGB(44, 25, 25)
-v26.Visible = false
-v26.Parent = v12
-
-local v32 = Instance.new("TextLabel")
-v32.Size = UDim2.new(1, 0, 0.3, 0)
-v32.BackgroundTransparency = 1
-v32.Text = "Speed: 70"
-v32.TextColor3 = Color3.fromRGB(255, 255, 255)
-v32.TextScaled = true
-v32.Parent = v26
-
-local v39 = Instance.new("Frame")
-v39.Size = UDim2.new(0.9, 0, 0.4, 0)
-v39.Position = UDim2.new(0.05, 0, 0.5, 0)
-v39.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-v39.Parent = v26
-
-local v44 = Instance.new("Frame")
-v44.Size = UDim2.new(0.8, 0, 0.1, 0)
-v44.Position = UDim2.new(0.1, 0, 0.5, 0)
-v44.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-v44.Parent = v39
-
--- Funções de controle
-local v58 = false
-local v59 = false
-local v60 = 35
-local v65 = 70
-
+-- Função ativada pelo botão e pela tecla C
 local function toggleControl()
+    if not v61 then
+        v61 = v66()
+        if not v61 then
+            warn("No Ball Found!")
+            return
+        end
+    end
     v59 = not v59
-    v22.Text = v59 and "CONTROL: ACTIVE" or "CONTROL: INACTIVE"
-    v22.TextColor3 = v59 and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+    v20.BackgroundColor3 = (v59 and Color3.fromRGB(0, 255, 0)) or Color3.fromRGB(255, 0, 0)
     v26.Visible = v59
+    if v59 then
+        v68()
+    elseif v58 then
+        v67()
+    end
 end
 
--- Script para a tecla "C" ativar/desativar a função
-v2.InputBegan:Connect(function(input)
-    if input.KeyCode == Enum.KeyCode.C then
+-- Evento de clique do botão
+v20.MouseButton1Click:Connect(toggleControl)
+
+-- Evento de pressionar a tecla C
+v2.InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed and input.KeyCode == Enum.KeyCode.C then
         toggleControl()
     end
 end)
 
--- Função do botão ASCEND
-v14.MouseButton1Click:Connect(function()
-    if v58 then
-        v58 = false
-        v14.Text = "ASCEND"
-        v11:Stop()
-    else
-        v58 = true
-        v14.Text = "STOP"
-        v11:Play()
-    end
-end)
-
--- Função para atualizar a barra de velocidade
-v1.RenderStepped:Connect(function()
-    if v59 then
-        -- velocidade (simplesmente um exemplo de como fazer isso)
-        local mousePos = v2:GetMouseLocation().X
-        local speedRatio = math.clamp((mousePos - v39.AbsolutePosition.X) / v39.AbsoluteSize.X, 0, 1)
-        v65 = math.floor(100 * speedRatio)
-        v32.Text = "Speed: " .. tostring(v65)
-    end
-end)
